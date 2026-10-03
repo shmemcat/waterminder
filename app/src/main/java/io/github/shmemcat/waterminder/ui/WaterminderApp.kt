@@ -98,7 +98,7 @@ private fun HomeScreen(model: WaterminderViewModel, onAllowNotifications: () -> 
     var now by remember { mutableStateOf(Instant.now()) }
     LaunchedEffect(Unit) { while (true) { now = Instant.now(); delay(30_000) } }
     LaunchedEffect(model.wateringEvent) {
-        if (model.wateringEvent > 0) {
+        if (model.consumeWateringEvent()) {
             happy = true
             watering.snapTo(0f)
             watering.animateTo(1f, tween(2100))

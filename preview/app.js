@@ -56,6 +56,7 @@
     else { const next=new Date(state.nextAt); $('next-time').textContent=(next.toDateString()!==new Date().toDateString()?'tomorrow, ':'around ')+next.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}); }
   }
   function showSettings(open) {
+    if (open) resetPlant();
     $('home').hidden=open; $('settings').hidden=!open;
     document.querySelector('.brand').hidden=open; $('settings-button').hidden=open; $('back-button').hidden=!open; document.querySelector('.settings-title').hidden=!open;
     (open?$('back-button'):$('settings-button')).focus();
@@ -67,7 +68,15 @@
     $('greeting').innerHTML='a sip for you.<br>a splash for your plant.';
     $('subtitle').textContent='Look at you, taking care of yourself.';
     $('plant-note').textContent='a little happier already'; $('drink-label').textContent='You & your plant say thanks';
-    happyTimer=setTimeout(()=>{ $('plant').classList.remove('watering'); $('plant').setAttribute('aria-label','A smiling little plant in a peach pot'); $('greeting').innerHTML='a little water.<br>a little better.'; $('subtitle').textContent='Small sips. A softer kind of habit.'; $('plant-note').textContent='you grow at your own pace'; $('drink-label').textContent='I drank water'; },4600);
+    happyTimer=setTimeout(resetPlant,4600);
+  }
+  function resetPlant() {
+    clearTimeout(happyTimer);
+    $('plant').classList.remove('watering');
+    $('plant').setAttribute('aria-label','A smiling little plant in a peach pot');
+    $('greeting').innerHTML='a little water.<br>a little better.';
+    $('subtitle').textContent='Small sips. A softer kind of habit.';
+    $('plant-note').textContent='you grow at your own pace'; $('drink-label').textContent='I drank water';
   }
   function toast(text) { clearTimeout(toastTimer); $('toast').textContent=text; $('toast').hidden=false; toastTimer=setTimeout(()=>{$('toast').hidden=true;},4000); }
   function openDialog(id) { previousFocus=document.activeElement; $(id).hidden=false; $(id).querySelector('button,input').focus(); }

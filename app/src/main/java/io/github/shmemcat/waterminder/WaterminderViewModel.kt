@@ -20,6 +20,7 @@ class WaterminderViewModel(application: Application) : AndroidViewModel(applicat
         private set
     var wateringEvent by mutableIntStateOf(0)
         private set
+    private var handledWateringEvent = 0
 
     init { ReminderNotifications.createChannel(context); refresh() }
 
@@ -36,6 +37,12 @@ class WaterminderViewModel(application: Application) : AndroidViewModel(applicat
     fun drink() {
         settings = ReminderScheduler.drink(context)
         wateringEvent++
+    }
+    // A drink is handled once, even if the home screen is recreated after settings.
+    fun consumeWateringEvent(): Boolean {
+        if (wateringEvent == handledWateringEvent) return false
+        handledWateringEvent = wateringEvent
+        return true
     }
     fun testReminder(): Boolean = ReminderNotifications.queueTest(context)
 }

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#faf8f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#211f26" media="(prefers-color-scheme: dark)">
+  <title>waterminder · a little water, a little better</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="preview-label"><img src="icon.svg" alt="" width="24" height="24"><span>waterminder</span><span class="preview-tag">a small Android prototype</span></div>
+  <div class="phone" id="waterminder">
+    <div class="statusbar" aria-hidden="true"><span>9:41</span><span class="status-icons">▴ ▰ <span class="battery"></span></span></div>
+    <header><div class="brand"><span data-icon="drop"></span><span>waterminder</span></div><button class="icon-button" id="settings-button" aria-label="Reminder settings"><span data-icon="settings"></span></button><button class="icon-button back" id="back-button" aria-label="Back to plant" hidden><span data-icon="back"></span></button><span class="settings-title" hidden>your rhythm</span></header>
+    <main>
+      <section id="home" aria-label="Your little plant">
+        <h1 id="greeting">a little water.<br>a little better.</h1>
+        <p class="subtitle" id="subtitle">Small sips. A softer kind of habit.</p>
+        <div class="plant" id="plant" role="img" aria-label="A smiling little plant in a peach pot">
+          <svg viewBox="0 0 340 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <ellipse cx="171" cy="250" rx="80" ry="9" fill="var(--floor)"/>
+            <circle cx="170" cy="144" r="87" fill="var(--sage-pale)"/>
+            <circle cx="75" cy="99" r="18" fill="#d7cced" opacity=".55"/>
+            <path d="M263 144v14m-7-7h14" stroke="#eabda6" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="97" cy="183" r="4" fill="#b8d6e6"/>
+            <g class="leaves" stroke="#4b4858" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M171 194C160 155 178 111 169 83" fill="none"/>
+              <path d="M169 103C148 104 132 81 141 58C169 58 186 81 169 103Z" fill="#b6d6bc"/>
+              <path d="M169 103Q156 81 149 72" fill="none" stroke-width="3"/>
+              <path d="M170 133C169 109 194 92 218 101C218 125 195 142 170 133Z" fill="#c7dcaa"/>
+              <path d="M170 133Q191 116 206 111" fill="none" stroke-width="3"/>
+              <path d="M167 166C141 175 118 157 119 135C146 129 167 145 167 166Z" fill="#b6d6bc"/>
+              <path d="M167 166Q147 150 132 146" fill="none" stroke-width="3"/>
+            </g>
+            <g stroke="#4b4858" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M127 190h86l-9 49q-1 8-10 8h-47q-8 0-9-8Z" fill="#eabda6"/>
+              <rect x="122" y="183" width="97" height="18" rx="6" fill="#eabda6"/>
+            </g>
+            <circle cx="158" cy="220" r="3" fill="#4b4858"/><circle cx="183" cy="220" r="3" fill="#4b4858"/>
+            <circle cx="151" cy="228" r="5" fill="#dda18d"/><circle cx="190" cy="228" r="5" fill="#dda18d"/>
+            <path class="smile" d="M165 226q6 6 12 0" stroke="#4b4858" fill="none" stroke-width="3" stroke-linecap="round"/>
+            <g class="watering-can" stroke="#4b4858" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-15 249 66)">
+              <path d="M263 62C285 52 288 87 268 82" fill="none"/>
+              <path d="M232 57h31l4 29q-19 8-36 0Z" fill="#d7cced"/>
+              <path d="m232 66-18-9-5 9 24 14Z" fill="#d7cced"/>
+            </g>
+            <g class="droplets" fill="#b8d6e6"><ellipse cx="204" cy="94" rx="2.2" ry="5"/><ellipse cx="187" cy="117" rx="2.2" ry="5"/><ellipse cx="198" cy="143" rx="2.2" ry="5"/><ellipse cx="172" cy="154" rx="2.2" ry="5"/></g>
+            <g class="hearts" fill="#eabda6"><path d="M109 119c-11-8-7-15 0-10c7-5 11 2 0 10Z"/><path d="M225 157c-11-8-7-15 0-10c7-5 11 2 0 10Z"/><path d="M187 60c-11-8-7-15 0-10c7-5 11 2 0 10Z"/></g>
+          </svg>
+        </div>
+        <p class="plant-note" id="plant-note" aria-live="polite">you grow at your own pace</p>
+        <div class="reminder-card">
+          <div class="reminder-main"><div><div class="eyebrow"><span data-icon="clock"></span><span id="next-label">Next little nudge</span></div><div class="next-time" id="next-time">around 11:41 AM</div></div><button class="switch" id="enabled-toggle" role="switch" aria-checked="true" aria-label="Enable water reminders"></button></div>
+          <p id="schedule-summary">every 2 hours · quiet 10 PM–7 AM</p>
+        </div>
+        <button class="drink-button" id="drink"><span data-icon="glass"></span><span id="drink-label">I drank water</span></button>
+        <p class="footer-note">just a gentle nudge. no keeping score.</p>
+      </section>
+      <section id="settings" aria-label="Reminder settings" hidden>
+        <h1>Make it your rhythm.</h1><p class="subtitle">A few small settings. Then go live your day.</p>
+        <div class="interval-section"><h2><span data-icon="clock"></span>Remind me every</h2><div class="intervals" aria-label="Reminder interval"><button data-minutes="60">1 hr</button><button data-minutes="120" aria-pressed="true">2 hr</button><button data-minutes="180">3 hr</button><button data-minutes="240">4 hr</button></div><button class="text-button" id="custom-button">Or choose your own interval</button></div>
+        <div class="setting-block"><div class="setting-row"><span data-icon="moon"></span><div><h2>Quiet hours</h2><p>Let you and your plant rest.</p></div><button class="switch" id="quiet-toggle" role="switch" aria-checked="true" aria-label="Quiet hours"></button></div><div class="quiet-times" id="quiet-times"><label>From<input id="quiet-start" type="time" value="22:00" aria-label="Quiet hours start"></label><label>Until<input id="quiet-end" type="time" value="07:00" aria-label="Quiet hours end"></label></div><p class="error" id="quiet-error" role="alert" hidden>Choose different start and end times.</p></div>
+        <div class="setting-block"><div class="setting-row"><span data-icon="sun"></span><div><h2>Light up my screen</h2><p>A little hello, even when it's locked.</p></div><button class="switch" id="wake-toggle" role="switch" aria-checked="true" aria-label="Light up my screen"></button></div><p class="setting-detail">Screen wake depends on your phone. Keep lock-screen notifications enabled in Android settings.</p></div>
+        <div class="notification-section"><div class="setting-row"><span data-icon="bell"></span><div><h2>Try a little nudge</h2><p>See what your reminder will look like.</p></div></div><button class="test-button" id="test-nudge">Preview a notification</button><p class="timing-note">Reminders are approximate and may arrive a little later while your phone saves battery. Quiet hours always stay quiet.</p></div>
+      </section>
+    </main>
+    <div class="home-indicator" aria-hidden="true"></div>
+    <div class="overlay" id="notification-overlay" hidden>
+      <div class="notification-preview" role="dialog" aria-modal="true" aria-labelledby="notification-title"><div class="preview-heading">Notification preview<button class="close-button" id="close-notification" aria-label="Close notification preview">×</button></div><div class="android-notification"><div class="notification-app"><img src="icon.svg" alt="" width="20" height="20">waterminder <span>· now</span></div><h2 id="notification-title">A little water break?</h2><p>Take a sip. Your little plant is rooting for you.</p><button id="notification-drink">I drank water</button></div><p class="preview-explainer">This is a preview. Reminders run in the Android app.</p></div>
+    </div>
+    <div class="overlay" id="custom-overlay" hidden><form class="custom-dialog" id="custom-form" role="dialog" aria-modal="true" aria-labelledby="custom-title"><h2 id="custom-title">Your own rhythm</h2><label for="interval-range" id="custom-value">Every 2 hours</label><input id="interval-range" type="range" min="30" max="480" step="15" value="120"><p>30 minutes to 8 hours</p><div><button class="text-button" type="button" id="cancel-custom">Cancel</button><button class="save-button" type="submit">Set interval</button></div></form></div>
+    <div class="toast" id="toast" role="status" hidden></div>
+  </div>
+  <p class="preview-caption">A little plant. A gentle reminder. That's it.</p>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import android.app.TimePickerDialog
 import android.text.format.DateFormat
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -101,7 +102,8 @@ private fun HomeScreen(model: WaterminderViewModel, onAllowNotifications: () -> 
         if (model.consumeWateringEvent()) {
             happy = true
             watering.snapTo(0f)
-            watering.animateTo(1f, tween(2100))
+            // The falling droplets share this progress, so keep their speed steady.
+            watering.animateTo(1f, tween(durationMillis = 3200, easing = LinearEasing))
             delay(2500)
             happy = false
         }

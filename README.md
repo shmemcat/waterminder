@@ -9,7 +9,7 @@ Crayon icon aesthetic and shmemplay. A plant, a reminder, and one button.
 - **Interactive desktop preview:** run `node preview/server.cjs`, then open
   http://127.0.0.1:4173. You can also open `preview/index.html` directly.
 - **Installable Android app:** the locally built APK is
-  `artifacts/waterminder-0.1.5.apk`. Copy it to your phone and open it to install.
+  `artifacts/waterminder-0.1.7.apk`. Copy it to your phone and open it to install.
   Android may ask you to allow installation from the app opening the APK.
 - Open waterminder, turn on the reminder switch, and allow notifications.
   The Android app starts with reminders off; the desktop preview starts with
@@ -28,7 +28,9 @@ Crayon icon aesthetic and shmemplay. A plant, a reminder, and one button.
 - Optional quiet hours, defaulting to 10 PM–7 AM. Overnight and daytime ranges
   work; matching start/end times are rejected.
 - A small plant-watering animation and gentle haptic when you tap **I drank
-  water**. This dismisses the notification and starts a fresh reminder interval.
+  water**. This dismisses the notification and keeps the next reminder unchanged.
+  Each delivered reminder automatically schedules the next interval; dismissing
+  or ignoring it never stops the reminders.
 - A lock-screen notification with an **I drank water** action that opens the
   app and waters the plant.
 - Optional screen wake, default on, and a **Send a test nudge** button. The test
@@ -47,9 +49,13 @@ meter.
 
 ## Android behavior and prototype limits
 
-Reminders use one-shot `AlarmManager.setAndAllowWhileIdle` alarms. Android may
-deliver them late while saving battery; the app checks quiet hours again at
-delivery. It does not request exact-alarm access or run a persistent service.
+Reminders use one-shot `AlarmManager` alarms and work without a running app or
+persistent service. With **Alarms & reminders** access, they use
+`setExactAndAllowWhileIdle`; Android 12+ exposes an **Allow on-time reminders**
+button in app settings when access is missing. Without access they fall back to
+`setAndAllowWhileIdle`, which Android can delay by an hour or more. Granting access
+restores the existing schedule without restarting the interval. The app checks
+quiet hours again at delivery. Samsung sleep restrictions can still defer work.
 Android cancels alarms when an app is force-stopped; reopen waterminder to resume.
 If notification permission is restored after a canceled reminder, reopening the
 app restores scheduling.
@@ -64,10 +70,17 @@ the CPU awake; it can be lost if the app process is killed during those 10 secon
 
 The APK has been compiled, linted, and tested with Robolectric, including app
 startup and notification-action handling. The interactive preview has been
-visually checked at normal and 320-pixel widths. Version 0.1.3 was installed and
-launched on a connected Samsung SM-S928U; the dark appearance was visually
-checked on the phone. Haptics, real Doze delivery, and screen wake still need a
-phone check.
+visually checked at normal and 320-pixel widths. The dark appearance was visually
+checked on a connected Samsung SM-S928U. Version 0.1.7 delivered a real exact
+reminder after its background process was terminated, then automatically
+scheduled the next reminder at quiet-hours end. All 30 unit/UI tests passed.
+Haptics, extended Doze behavior, and screen wake still need a phone check.
+
+`ReminderBackgroundTest` is an optional device smoke test that schedules one
+real nudge 20 seconds ahead while retaining the user's interval and quiet hours.
+After instrumentation finishes, close the app's background process to verify
+notification delivery. The test skips when reminders or permissions are off,
+or when its delivery would fall inside quiet hours.
 
 ## Build
 

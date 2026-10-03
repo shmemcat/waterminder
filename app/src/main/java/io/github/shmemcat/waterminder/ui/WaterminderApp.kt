@@ -41,7 +41,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 @Composable
-fun WaterminderApp(model: WaterminderViewModel, onAllowNotifications: () -> Unit, onNotificationSettings: () -> Unit) {
+fun WaterminderApp(model: WaterminderViewModel, onAllowNotifications: () -> Unit, onNotificationSettings: () -> Unit, onAllowPreciseReminders: () -> Unit) {
     WaterminderTheme {
         val palette = LocalPalette.current
         var settingsOpen by rememberSaveable { mutableStateOf(false) }
@@ -53,7 +53,7 @@ fun WaterminderApp(model: WaterminderViewModel, onAllowNotifications: () -> Unit
                 Column(Modifier.widthIn(max = 480.dp).fillMaxSize().padding(horizontal = 24.dp)) {
                     Header(settingsOpen, onBack = { settingsOpen = false }, onSettings = { settingsOpen = true })
                     if (settingsOpen) {
-                        SettingsScreen(model.settings, model.notificationsAllowed, model::update, onAllowNotifications, onNotificationSettings, onTest = {
+                        SettingsScreen(model.settings, model.notificationsAllowed, model.preciseRemindersAllowed, model::update, onAllowNotifications, onNotificationSettings, onAllowPreciseReminders, onTest = {
                             val sent = model.testReminder()
                             scope.launch {
                                 snackbar.showSnackbar(if (sent) "Test nudge in 10 seconds. Lock your screen to try it." else if (ReminderPolicy.isQuiet(Instant.now(), model.settings, ZoneId.systemDefault())) "Shh, it's quiet hours. Try again after they end." else "Allow notifications first, then try again.")
@@ -173,7 +173,7 @@ private fun ReminderCard(settings: ReminderSettings, allowed: Boolean, now: Inst
 
 
 @Composable
-private fun SettingsScreen(settings: ReminderSettings, notificationsAllowed: Boolean, onChange: (ReminderSettings) -> Unit, onAllow: () -> Unit, onNotificationSettings: () -> Unit, onTest: () -> Unit, onInvalidTime: () -> Unit) {
+private fun SettingsScreen(settings: ReminderSettings, notificationsAllowed: Boolean, preciseRemindersAllowed: Boolean, onChange: (ReminderSettings) -> Unit, onAllow: () -> Unit, onNotificationSettings: () -> Unit, onAllowPreciseReminders: () -> Unit, onTest: () -> Unit, onInvalidTime: () -> Unit) {
     val palette = LocalPalette.current
     val context = LocalContext.current
     var custom by rememberSaveable { mutableStateOf(false) }
@@ -231,7 +231,13 @@ private fun SettingsScreen(settings: ReminderSettings, notificationsAllowed: Boo
             Text("Send a test nudge", fontSize = 14.sp)
         }
         Spacer(Modifier.height(22.dp))
-        Text("Reminders are approximate and may arrive a little later while your phone saves battery. Quiet hours always stay quiet.", fontSize = 12.sp, lineHeight = 18.sp, color = palette.Muted)
+        if (!preciseRemindersAllowed) {
+            SectionTitle(Doodle.Clock, "Keep nudges on time")
+            Text("Android can delay reminders by an hour or more. Allow Alarms & reminders for your chosen interval, even when the app is closed.", fontSize = 12.sp, lineHeight = 18.sp, color = palette.Muted, modifier = Modifier.padding(top = 8.dp))
+            TextButton(onClick = onAllowPreciseReminders) { Text("Allow on-time reminders") }
+            Spacer(Modifier.height(12.dp))
+        }
+        Text(if (preciseRemindersAllowed) "Nudges work even when the app is closed. Quiet hours always stay quiet." else "Until allowed, reminders stay approximate. Quiet hours always stay quiet.", fontSize = 12.sp, lineHeight = 18.sp, color = palette.Muted)
     }
     if (custom) {
         var minutes by remember { mutableFloatStateOf(settings.intervalMinutes.toFloat()) }

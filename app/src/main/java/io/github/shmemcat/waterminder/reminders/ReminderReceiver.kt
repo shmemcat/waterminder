@@ -3,6 +3,7 @@ package io.github.shmemcat.waterminder.reminders
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.app.AlarmManager
 import java.time.Instant
 import java.time.ZoneId
 
@@ -33,7 +34,6 @@ class RestoreReceiver : BroadcastReceiver() {
         ReminderScheduler.restore(context, resetInterval = intent.action == Intent.ACTION_TIME_CHANGED)
     }
     companion object {
-        private val ACTIONS = setOf(Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED)
+        private val ACTIONS = setOf(Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_MY_PACKAGE_REPLACED, Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED, AlarmManager.ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED)
     }
 }
-

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.net.Uri
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,7 +32,11 @@ class MainActivity : ComponentActivity() {
                     getPreferences(MODE_PRIVATE).edit().putBoolean("asked", true).apply()
                     permission.launch(Manifest.permission.POST_NOTIFICATIONS)
                 } else openNotificationSettings()
-            }, onNotificationSettings = { openNotificationSettings() })
+            }, onNotificationSettings = { openNotificationSettings() }, onAllowPreciseReminders = {
+                if (Build.VERSION.SDK_INT >= 31) {
+                    startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:$packageName")))
+                }
+            })
         }
     }
     override fun onResume() { super.onResume(); model.refresh() }

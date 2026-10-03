@@ -18,6 +18,8 @@ class WaterminderViewModel(application: Application) : AndroidViewModel(applicat
         private set
     var notificationsAllowed by mutableStateOf(false)
         private set
+    var preciseRemindersAllowed by mutableStateOf(false)
+        private set
     var wateringEvent by mutableIntStateOf(0)
         private set
     private var handledWateringEvent = 0
@@ -26,6 +28,7 @@ class WaterminderViewModel(application: Application) : AndroidViewModel(applicat
 
     fun refresh() {
         notificationsAllowed = ReminderNotifications.canNotify(context)
+        preciseRemindersAllowed = ReminderScheduler.canSchedulePrecisely(context)
         settings = ReminderScheduler.restore(context)
     }
     fun update(value: ReminderSettings) {

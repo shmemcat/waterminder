@@ -62,7 +62,7 @@
     (open?$('back-button'):$('settings-button')).focus();
   }
   function drink() {
-    schedule(); paint(); clearTimeout(happyTimer);
+    paint(); clearTimeout(happyTimer);
     $('plant').classList.remove('watering'); void $('plant').offsetWidth; $('plant').classList.add('watering');
     $('plant').setAttribute('aria-label','A happy little plant being watered');
     $('greeting').innerHTML='a sip for you.<br>a splash for your plant.';

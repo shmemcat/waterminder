@@ -12,6 +12,8 @@
         android:label="waterminder"
         android:supportsRtl="true"
         android:theme="@style/Theme.Waterminder">
+        <!-- The drop is complete artwork; Samsung should not add an icon frame. -->
+        <meta-data android:name="com.samsung.android.icon_container.has_icon_container" android:value="true" />
         <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

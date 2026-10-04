@@ -9,7 +9,7 @@ Crayon icon aesthetic and shmemplay. A plant, a reminder, and one button.
 - **Interactive desktop preview:** run `node preview/server.cjs`, then open
   http://127.0.0.1:4173. You can also open `preview/index.html` directly.
 - **Installable Android app:** the locally built APK is
-  `artifacts/waterminder-0.1.8.apk`. Copy it to your phone and open it to install.
+  `artifacts/waterminder-0.1.9.apk`. Copy it to your phone and open it to install.
   Android may ask you to allow installation from the app opening the APK.
 - Open waterminder, turn on the reminder switch, and allow notifications.
   The Android app starts with reminders off; the desktop preview starts with
@@ -22,7 +22,8 @@ Crayon icon aesthetic and shmemplay. A plant, a reminder, and one button.
   Dark mode keeps the same pastel plant and accents on a soft charcoal background.
   The browser preview follows the computer's theme; `?theme=dark` or `?theme=light`
   provides a temporary preview-only override for inspecting either appearance.
-- A soft blue waterdrop launcher icon with a transparent background.
+- A soft blue waterdrop launcher icon with a thinner charcoal outline and
+  transparent background. Samsung's automatic icon frame is disabled.
 - Reminders every 1, 2, 3, or 4 hours, or a custom interval from 30 minutes to
   8 hours in 15-minute steps. Default: 2 hours.
 - Optional quiet hours, defaulting to 10 PM–7 AM. Overnight and daytime ranges
